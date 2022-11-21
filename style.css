@@ -6,11 +6,102 @@
   box-sizing: border-box;
 }
 
+*::selection {
+  background-color: #ffea00;
+  color: #4b1362;
+}
+
 html {
   font-size: 62.5%;
   /* text font */
 }
 
 body {
-  background-color: #5b1678;
+  background-color: #4b1362;
+}
+
+/* Main container */
+
+#main-container {
+  width: 100%;
+  height: 100vh;
+  padding: 2rem;
+  overflow-x: hidden;
+}
+
+/* Containers */
+
+/* Selection-container */
+
+#selection-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#selection-container > h1 {
+  padding: 1rem;
+  font-family: "Dangrek", cursive;
+  line-height: 4.5rem;
+  color: white;
+  text-align: center;
+  font-size: clamp(5.4rem, 10vw, 6rem);
+}
+
+#character-container {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  padding: 1rem;
+  width: 100%;
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+#character-container::-webkit-scrollbar {
+  display: none;
+}
+
+.character-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+
+.character-button > img {
+  width: clamp(18rem, 10vw, 24rem);
+}
+
+.character-button > span {
+  color: white;
+  font-family: "Lacquer", cursive;
+  font-size: clamp(3.5rem, 10vw, 4rem);
+}
+
+#select-character {
+  font-family: "Dangrek", cursive;
+  font-size: clamp(3.5rem, 8vw, 4rem);
+  border: none;
+  border-radius: 2rem;
+  padding: 0 2rem;
+  color: #4b1362;
+  background-color: white;
+  cursor: pointer;
+}
+
+#select-character:hover {
+  box-shadow: 0 0 2rem #ffea00;
+}
+
+/* Media query */
+
+@media (max-width: 670px) {
+  #character-container {
+    justify-content: left;
+  }
 }

@@ -2,13 +2,47 @@
 <html lang="en">
   <head>
     <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dangrek&family=Lacquer&display=swap"
+      rel="stylesheet"
+    />
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mokepon</title>
   </head>
   <body>
-    <div class="main-container"></div>
-    <script src="index.js" defer></script>
+    <div id="main-container">
+      <section id="selection-container">
+        <h1>Select your character</h1>
+
+        <div id="character-container">
+          <div class="character-button" id="capipepo">
+            <img src="./assets/capipepo.png" alt="capipepo" />
+            <span>capipepo</span>
+          </div>
+
+          <div class="character-button" id="hipodoge">
+            <img src="./assets/hipodoge.png" alt="hipodoge" />
+            <span>hipodoge</span>
+          </div>
+
+          <div class="character-button" id="ratigueya">
+            <img src="./assets/ratigueya.png" alt="ratigueya" />
+            <span>ratigueya</span>
+          </div>
+        </div>
+
+        <button id="select-character">Select</button>
+      </section>
+
+      <section id="map-container"></section>
+
+      <section id="game-container"></section>
+    </div>
+
+    <script src="index.js"></script>
   </body>
 </html>
