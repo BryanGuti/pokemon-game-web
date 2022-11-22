@@ -165,6 +165,14 @@ body {
   grid-area: right;
 }
 
+.arrow-button:hover {
+  background-color: #ffffff2b;
+}
+
+.arrow-button:active {
+  background-color: #ffea0060;
+}
+
 /* Media query */
 
 @media (max-width: 840px) {

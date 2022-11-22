@@ -38,6 +38,32 @@ const mapContainer = document.querySelector("#map-container");
 const canvas = document.querySelector("#map");
 const canvasMap = canvas.getContext("2d");
 
+const mapImage = new Image();
+mapImage.src = "./assets/mokemap.png";
+
+function start() {
+  //  Create mokepons
+  const mokepons = createMokepones(mokeponesToBeCreated);
+
+  //  Add mokepons to character-container
+  mokepons.forEach((moke) => {
+    charContainer.appendChild(moke.mokepon);
+  });
+
+  // Add event listeners to mokepons
+  mokepons.forEach((moke) => {
+    moke.mokepon.firstChild.addEventListener("mouseover", overChar);
+    moke.mokepon.firstChild.addEventListener("mouseout", outChar);
+    moke.mokepon.firstChild.addEventListener("click", focusChar);
+    moke.mokepon.lastChild.addEventListener("mouseover", overChar);
+    moke.mokepon.lastChild.addEventListener("mouseout", outChar);
+    moke.mokepon.lastChild.addEventListener("click", focusChar);
+  });
+
+  charContainer.addEventListener("wheel", horScroll);
+  selectButton.addEventListener("click", startGame);
+}
+
 function createMokepones(mokeponesList) {
   return mokeponesList.map((mokepon) => {
     const moke = new Mokepon(mokepon);
@@ -86,60 +112,27 @@ function startGame() {
   }
   selectContainer.style.display = "none";
   mapContainer.style.display = "grid";
+
   responsiveMap();
+  window.addEventListener("resize", responsiveMap);
 }
 
 function responsiveMap() {
-  canvas.style.backgroundColor = "black";
-
-  if (window.innerWidth <= 700 && window.innerWidth > 500) {
-    canvas.width = window.innerWidth * 0.5;
-    canvas.height = canvas.width * 0.75;
-  } else if (window.innerWidth <= 500) {
+  if (window.innerWidth <= 500) {
     canvas.width = window.innerWidth * 0.8;
     canvas.height = canvas.width * 0.75;
-  } else {
-    canvas.width = window.innerWidth * 0.4;
-    canvas.height = canvas.width * 0.75;
+    canvasMap.drawImage(mapImage, 0, 0, canvas.width, canvas.height);
+    return;
   }
-
-  window.addEventListener("resize", () => {
-    if (window.innerWidth <= 700 && window.innerWidth > 500) {
-      canvas.width = window.innerWidth * 0.5;
-      canvas.height = canvas.width * 0.75;
-      return;
-    }
-    if (window.innerWidth <= 500) {
-      canvas.width = window.innerWidth * 0.8;
-      canvas.height = canvas.width * 0.75;
-      return;
-    }
-    canvas.width = window.innerWidth * 0.4;
+  if (window.innerWidth <= 700) {
+    canvas.width = window.innerWidth * 0.5;
     canvas.height = canvas.width * 0.75;
-  });
-}
-
-function start() {
-  //  Create mokepons
-  const mokepons = createMokepones(mokeponesToBeCreated);
-
-  //  Add mokepons to character-container
-  mokepons.forEach((moke) => {
-    charContainer.appendChild(moke.mokepon);
-  });
-
-  // Add event listeners to mokepons
-  mokepons.forEach((moke) => {
-    moke.mokepon.firstChild.addEventListener("mouseover", overChar);
-    moke.mokepon.firstChild.addEventListener("mouseout", outChar);
-    moke.mokepon.firstChild.addEventListener("click", focusChar);
-    moke.mokepon.lastChild.addEventListener("mouseover", overChar);
-    moke.mokepon.lastChild.addEventListener("mouseout", outChar);
-    moke.mokepon.lastChild.addEventListener("click", focusChar);
-  });
-
-  charContainer.addEventListener("wheel", horScroll);
-  selectButton.addEventListener("click", startGame);
+    canvasMap.drawImage(mapImage, 0, 0, canvas.width, canvas.height);
+    return;
+  }
+  canvas.width = window.innerWidth * 0.4;
+  canvas.height = canvas.width * 0.75;
+  canvasMap.drawImage(mapImage, 0, 0, canvas.width, canvas.height);
 }
 
 window.addEventListener("load", start);
