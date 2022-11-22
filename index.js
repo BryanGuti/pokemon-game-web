@@ -1,38 +1,49 @@
 "use strict";
 
-const charImages = document.querySelectorAll(".character-button img");
-const charNames = document.querySelectorAll(".character-button span");
-const charContainer = document.querySelector("#character-container");
-const selectButton = document.querySelector("#select-character");
-const selectContainer = document.querySelector("#selection-container");
+class Mokepon {
+  constructor(name) {
+    (this.name = name), (this.image = `./assets/${name}.png`);
+  }
+
+  mokepon;
+
+  createChar() {
+    const character = document.createElement("div");
+    character.setAttribute("class", "character-button");
+    character.setAttribute("id", this.name);
+
+    const charImage = document.createElement("img");
+    charImage.setAttribute("src", this.image);
+    charImage.setAttribute("alt", this.name);
+
+    const charName = document.createElement("span");
+    charName.textContent = this.name;
+
+    character.appendChild(charImage);
+    character.appendChild(charName);
+
+    this.mokepon = character;
+  }
+}
+
+const mokeponesToBeCreated = ["capipepo", "hipodoge", "ratigueya"];
 
 let imageSelected;
 let nameSelected;
 
-function start() {
-  //  Event listeners
+const selectContainer = document.querySelector("#selection-container");
+const charContainer = document.querySelector("#character-container");
+const selectButton = document.querySelector("#select-character");
+const mapContainer = document.querySelector("#map-container");
+const canvas = document.querySelector("#map");
+const canvasMap = canvas.getContext("2d");
 
-  charImages.forEach((charImage) => {
-    charImage.addEventListener("mouseover", overChar);
-    charImage.addEventListener("mouseout", outChar);
-    charImage.addEventListener("click", focusChar);
+function createMokepones(mokeponesList) {
+  return mokeponesList.map((mokepon) => {
+    const moke = new Mokepon(mokepon);
+    moke.createChar();
+    return moke;
   });
-
-  charNames.forEach((charName) => {
-    charName.addEventListener("mouseover", overChar);
-    charName.addEventListener("mouseout", outChar);
-    charName.addEventListener("click", focusChar);
-  });
-
-  charContainer.addEventListener("wheel", horScroll);
-  selectButton.addEventListener("click", startGame);
-}
-
-function startGame() {
-  if (!imageSelected || !nameSelected) {
-    return;
-  }
-  selectContainer.style.display = "none";
 }
 
 function overChar(event) {
@@ -44,11 +55,6 @@ function overChar(event) {
 function outChar(event) {
   event.path[1].children[1].style.textShadow = "";
   event.path[1].children[0].style.webkitFilter = "";
-}
-
-function horScroll(event) {
-  event.preventDefault();
-  charContainer.scrollLeft += event.deltaY;
 }
 
 function focusChar(event) {
@@ -67,6 +73,73 @@ function focusChar(event) {
   event.path[1].children[1].removeEventListener("mouseout", outChar);
   imageSelected = event.path[1].children[0];
   nameSelected = event.path[1].children[1];
+}
+
+function horScroll(event) {
+  event.preventDefault();
+  charContainer.scrollLeft += event.deltaY;
+}
+
+function startGame() {
+  if (!imageSelected || !nameSelected) {
+    return;
+  }
+  selectContainer.style.display = "none";
+  mapContainer.style.display = "grid";
+  responsiveMap();
+}
+
+function responsiveMap() {
+  canvas.style.backgroundColor = "black";
+
+  if (window.innerWidth <= 700 && window.innerWidth > 500) {
+    canvas.width = window.innerWidth * 0.5;
+    canvas.height = canvas.width * 0.75;
+  } else if (window.innerWidth <= 500) {
+    canvas.width = window.innerWidth * 0.8;
+    canvas.height = canvas.width * 0.75;
+  } else {
+    canvas.width = window.innerWidth * 0.4;
+    canvas.height = canvas.width * 0.75;
+  }
+
+  window.addEventListener("resize", () => {
+    if (window.innerWidth <= 700 && window.innerWidth > 500) {
+      canvas.width = window.innerWidth * 0.5;
+      canvas.height = canvas.width * 0.75;
+      return;
+    }
+    if (window.innerWidth <= 500) {
+      canvas.width = window.innerWidth * 0.8;
+      canvas.height = canvas.width * 0.75;
+      return;
+    }
+    canvas.width = window.innerWidth * 0.4;
+    canvas.height = canvas.width * 0.75;
+  });
+}
+
+function start() {
+  //  Create mokepons
+  const mokepons = createMokepones(mokeponesToBeCreated);
+
+  //  Add mokepons to character-container
+  mokepons.forEach((moke) => {
+    charContainer.appendChild(moke.mokepon);
+  });
+
+  // Add event listeners to mokepons
+  mokepons.forEach((moke) => {
+    moke.mokepon.firstChild.addEventListener("mouseover", overChar);
+    moke.mokepon.firstChild.addEventListener("mouseout", outChar);
+    moke.mokepon.firstChild.addEventListener("click", focusChar);
+    moke.mokepon.lastChild.addEventListener("mouseover", overChar);
+    moke.mokepon.lastChild.addEventListener("mouseout", outChar);
+    moke.mokepon.lastChild.addEventListener("click", focusChar);
+  });
+
+  charContainer.addEventListener("wheel", horScroll);
+  selectButton.addEventListener("click", startGame);
 }
 
 window.addEventListener("load", start);

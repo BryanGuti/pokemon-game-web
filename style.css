@@ -31,7 +31,7 @@ body {
 
 /* Containers */
 
-/* Selection-container */
+/* Selection container */
 
 #selection-container {
   width: 100%;
@@ -43,7 +43,6 @@ body {
 }
 
 #selection-container > h1 {
-  padding: 1rem;
   font-family: "Dangrek", cursive;
   line-height: 4.5rem;
   color: white;
@@ -53,10 +52,10 @@ body {
 
 #character-container {
   display: flex;
-  justify-content: center;
+  justify-content: left;
   gap: 3rem;
   padding: 1rem;
-  width: 100%;
+  width: 78%;
   display: flex;
   overflow-x: auto;
   overflow-y: hidden;
@@ -74,7 +73,7 @@ body {
 }
 
 .character-button > img {
-  width: clamp(18rem, 10vw, 24rem);
+  width: clamp(18rem, 30vw, 24rem);
 }
 
 .character-button > span {
@@ -98,10 +97,97 @@ body {
   box-shadow: 0 0 2rem #ffea00;
 }
 
+/* Map container */
+
+#map-container {
+  width: 100%;
+  height: 100%;
+  display: none;
+  grid-template-areas:
+    "header header header"
+    "map map buttons";
+  grid-template-columns: 1fr 2fr 2fr;
+  grid-template-rows: 1fr 3fr;
+  /* align-content: center; */
+  /* gap: 2rem; */
+  align-items: center;
+  justify-items: center;
+  gap: 2rem;
+}
+
+#map-container > h1 {
+  font-family: "Dangrek", cursive;
+  line-height: 4.5rem;
+  color: white;
+  text-align: center;
+  font-size: clamp(5.4rem, 10vw, 6rem);
+  grid-area: header;
+}
+
+#map {
+  grid-area: map;
+}
+
+#arrow-buttons {
+  width: 100%;
+  height: 100%;
+  grid-area: buttons;
+  display: grid;
+  grid-template-areas:
+    "up up up"
+    "left down right";
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  /* align-items: center; */
+  gap: 2rem;
+  justify-items: center;
+}
+
+.arrow-button {
+  width: 6rem;
+  cursor: pointer;
+}
+
+#arrow-up {
+  grid-area: up;
+  align-self: flex-end;
+}
+
+#arrow-left {
+  grid-area: left;
+}
+
+#arrow-down {
+  grid-area: down;
+}
+
+#arrow-right {
+  grid-area: right;
+}
+
 /* Media query */
 
-@media (max-width: 670px) {
+@media (max-width: 840px) {
   #character-container {
-    justify-content: left;
+    width: 100%;
+  }
+}
+
+@media (max-width: 700px) {
+  #map-container {
+    grid-template-areas:
+      "header"
+      "map"
+      "buttons";
+    grid-template-columns: 1fr;
+    grid-template-rows: 2fr 3fr 3fr;
+  }
+
+  #arrow-left {
+    justify-self: flex-end;
+  }
+
+  #arrow-right {
+    justify-self: flex-start;
   }
 }
