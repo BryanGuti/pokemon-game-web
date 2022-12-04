@@ -35,7 +35,7 @@ const mapImage = new Image();
 // Components properties
 const canvasMap = canvas.getContext("2d");
 mapImage.src = "./assets/mokemap.png";
-mapImage.style.filter = "sepia(100%)";
+
 // Mokepon selected
 let imageSelected;
 let nameSelected;
@@ -94,14 +94,14 @@ function createChar(mokeponName) {
 }
 
 function overChar(event) {
-  event.path[1].children[1].style.textShadow = "0 0 1rem #ffea00";
-  event.path[1].children[0].style.webkitFilter =
-    "drop-shadow(0 0 1rem #ffea00)";
+  event.target.closest(".character-button").lastChild.style.textShadow = "0 0 1rem #ffea00";
+  event.target.closest(".character-button").firstChild.style.webkitFilter =
+  "drop-shadow(0 0 1rem #ffea00)";
 }
 
 function outChar(event) {
-  event.path[1].children[1].style.textShadow = "";
-  event.path[1].children[0].style.webkitFilter = "";
+  event.target.closest(".character-button").lastChild.style.textShadow = "";
+  event.target.closest(".character-button").firstChild.style.webkitFilter ="";
 }
 
 function focusChar(event) {
@@ -116,10 +116,10 @@ function focusChar(event) {
     nameSelected.addEventListener("mouseout", outChar);
   }
 
-  event.path[1].children[0].removeEventListener("mouseout", outChar);
-  event.path[1].children[1].removeEventListener("mouseout", outChar);
-  imageSelected = event.path[1].children[0];
-  nameSelected = event.path[1].children[1];
+  event.target.closest(".character-button").firstChild.removeEventListener("mouseout", outChar);
+  event.target.closest(".character-button").lastChild.removeEventListener("mouseout", outChar);
+  imageSelected = event.target.closest(".character-button").firstChild
+  nameSelected = event.target.closest(".character-button").lastChild
 }
 
 function horScroll(event) {
